@@ -21,7 +21,7 @@ class RegisterController extends Controller
         'email' => $input['email'],
         'password' => Hash::make($input['password'])
       ]);
-       return redirect('login');
+       return redirect('/');
     }
 
 }
