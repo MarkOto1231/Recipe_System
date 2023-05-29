@@ -5,6 +5,7 @@ use App\Http\Controllers\RecipeController;
 
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LogoutController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,10 +23,14 @@ Route::post('/register', [RegisterController::class, 'store'])->name('register')
                               //Login//
 Route::get('/', [LoginController::class, 'index']);
 Route::post('/check', [LoginController::class, 'check'])-> name ('check');
+                              //Logout//
+Route::get('/logout', [LogoutController::class,'logout'])-> name('logout');
 
 //---------------------------Login-Register---------------------------//
 
 
 //---------------------------Recipe-List---------------------------//
 Route::resource("/check/recipe-list",RecipeController::class);
+Route::get('/check/search', [RecipeController::class, 'index']);
+Route::get('/check/dashboard', [RecipeController::class, 'dashboard']);
 //---------------------------Recipe-List---------------------------//

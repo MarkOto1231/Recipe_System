@@ -18,7 +18,13 @@ class LoginController extends Controller
 
     public function check(Request $request)
     {
-     $recipe = Recipe::all();
+        $recipe = Recipe::latest();
+        if (request()->has('search')) {
+        $recipe -> where('Recipe_name', 'Like', '%' . request () ->input('search') . '%');
+    }
+
+        $recipe = $recipe->paginate(3);
+
      $credentials = $request->validate([
      'email' => ['required', 'email'],
      'password' => ['required'],
@@ -26,7 +32,7 @@ class LoginController extends Controller
         
         if (Auth::attempt($credentials)) 
         {
-            return view('recipe.index') -> with ('recipe',$recipe);
+            return view('recipe.dashboard') -> with ('recipe',$recipe);
          }
           return "<h2>Username or Password Invalid!</h2>";  
        }

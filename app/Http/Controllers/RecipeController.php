@@ -13,8 +13,15 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        $recipe = Recipe::all();
-        return view ('recipe.index')->with('recipe',$recipe);
+        
+        $recipe = Recipe::latest();
+        if (request()->has('search')) {
+        $recipe -> where('Recipe_name', 'Like', '%' . request () -> input('search') . '%');
+    }
+
+        $recipe = $recipe->paginate(3);
+        return view('recipe.index',compact('recipe'));
+        
     }
 
     /**
@@ -110,5 +117,18 @@ class RecipeController extends Controller
     {
         Recipe::destroy($id);
         return redirect('/check/recipe-list/')-> with('flash_message', 'Student deleted!');  
+    }
+
+    public function dashboard()
+    {
+        
+        $recipe = Recipe::latest();
+        if (request()->has('search')) {
+        $recipe -> where('Recipe_name', 'Like', '%' . request () -> input('search') . '%');
+    }
+
+        $recipe = $recipe->paginate(3);
+        return view('recipe.dashboard',compact('recipe'));
+        
     }
 }
